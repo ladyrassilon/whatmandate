@@ -58,7 +58,7 @@ class ConstituencyElection(models.Model):
 
 	def turnout_percentage(self):
 		return cache.get("constituency_election.turnout_percentage.%s,%s"%(self.election_id,self.constituency_id),self._calculate_turnout_percentage())
-	
+	#FIXME:This needs caching
 	def conventional_party_results(self):
 		tally = {}
 		total = 0
