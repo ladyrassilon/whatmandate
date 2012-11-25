@@ -9,7 +9,7 @@ def different_elections(request):
 	elections = Election.objects.all()
 	return render_to_response("elections.html", {"elections":elections}, RequestContext(request))
 
-@cache_page(60 * 15)
+@cache_page(60 * 60 * 4)
 def election_detail(request,election_id):
 	election = Election.objects.get(id=election_id)
 	height_pix = 24*election.constituencyelection_set.count() + 300
