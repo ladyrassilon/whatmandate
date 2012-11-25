@@ -94,11 +94,12 @@ class ConstituencyElection(models.Model):
 	def winner_total_percentage(self):
 		return cache.get("constituency_election.winner_total_percentage.%s,%s"%(self.election_id,self.constituency_id),self._calculate_winner_total_percentage())
 
+	def _calculate_abstention_percentage(self):
+		abstention_percentage = 100 - self.turnout_percentage()
+		cache.set("constituency_election.abstention_percentage.%s,%s"%(self.election_id,self.constituency_id),abstention_percentage,CACHE_SECONDS)
+		return abstention_percentage
 	def abstention_percentage(self):
-		absentions = self.electorate_size
-		for cr in self.candidateresult_set.all():
-			absentions -= cr.votes
-		return round(float(absentions)/float(self.electorate_size)*100)
+		return cache.get("constituency_election.abstention_percentage.%s,%s"%(self.election_id,self.constituency_id),self._calculate_abstention_percentage())
 
 	def __unicode__(self):
 		return "%s (%s)"%(self.constituency.name,self.election.title)
