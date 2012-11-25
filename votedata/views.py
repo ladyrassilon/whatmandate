@@ -12,4 +12,5 @@ def different_elections(request):
 @cache_page(60 * 15)
 def election_detail(request,election_id):
 	election = Election.objects.get(id=election_id)
-	return render_to_response("basic.html", {"election":election}, RequestContext(request))
+	height_pix = 24*election.constituencyelection_set.count() + 300
+	return render_to_response("basic.html", {"election":election,"height_pix":height_pix}, RequestContext(request))
