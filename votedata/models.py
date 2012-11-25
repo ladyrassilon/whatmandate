@@ -71,6 +71,7 @@ class ConstituencyElection(models.Model):
 			results[party] = round((float(tally[party])/float(total))*100,2)
 			results_list.append("%s:%d02"%(party,results[party]))
 		return results
+	#FIXEME:This needs caching
 	def winner(self):
 		largest_party = None
 		largest_total = 0
