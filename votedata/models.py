@@ -4,7 +4,7 @@ import json
 from django.core.cache import cache
 # Create your models here.
 
-CACHE_SECONDS = 60*60*2
+CACHE_SECONDS = 60*60*24*7
 
 ELECTION_TYPES = (
 	('B',"By-Election"),
