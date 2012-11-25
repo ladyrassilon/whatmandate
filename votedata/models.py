@@ -1,5 +1,5 @@
 from django.db import models
-
+import math
 # Create your models here.
 
 ELECTION_TYPES = (
@@ -43,6 +43,11 @@ class ConstituencyElection(models.Model):
 	election = models.ForeignKey(Election)
 	constituency = models.ForeignKey(Constituency)
 	electorate_size = models.IntegerField()
+	def turnout_percentage(self):
+		total = 0
+		for cr in self.candidateresult_set.all():
+			total += cr.votes
+		return round(float(total)/float(self.electorate_size)*100)
 	def __unicode__(self):
 		return "%s (%s)"%(self.constituency.name,self.election.title)
 
