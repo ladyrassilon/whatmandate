@@ -27,3 +27,9 @@ def import_results_data(path):
 		party = PoliticalParty.objects.get_or_create(name=candidate_party)[0]
 		candidate = Candidate.objects.get_or_create(name=candidate_name,party=party,constituency_id=constituency_id)[0]
 		candidate_result = CandidateResult.objects.get_or_create(candidate=candidate,constituency_election=constituency_election,votes=candidate_votes)[0]
+
+def prime_cache():
+	for constituency_election in ConstituencyElection.objects.all():
+		print "turnout %s"%constituency_election.turnout_percentage()
+		print "winner %s"%constituency_election.winner_total_percentage()
+		print "abstention %s"%constituency_election.abstention_percentage() 
