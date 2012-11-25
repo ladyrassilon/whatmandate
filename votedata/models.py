@@ -1,6 +1,7 @@
 from django.db import models
 import math
 import json
+from django.core.cache import cache
 # Create your models here.
 
 ELECTION_TYPES = (
