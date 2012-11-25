@@ -1,5 +1,6 @@
 from django.db import models
 import math
+import json
 # Create your models here.
 
 ELECTION_TYPES = (
@@ -48,6 +49,43 @@ class ConstituencyElection(models.Model):
 		for cr in self.candidateresult_set.all():
 			total += cr.votes
 		return round(float(total)/float(self.electorate_size)*100)
+	def conventional_party_results(self):
+		tally = {}
+		total = 0
+		for cr in self.candidateresult_set.all():
+			total += cr.votes
+			tally[cr.candidate.party.name] = cr.votes
+		results = {}
+		results_list = []
+		for party in tally.keys():
+			results[party] = round((float(tally[party])/float(total))*100,2)
+			results_list.append("%s:%d02"%(party,results[party]))
+		return results
+	def winner(self):
+		largest_party = None
+		largest_total = 0
+		for cr in self.candidateresult_set.all():
+			if cr.votes > largest_total:
+				largest_total = cr.votes
+				largest_party = cr.candidate.party.name
+		return largest_party
+
+	def winner_total_percentage(self):
+		largest_party = None
+		largest_total = 0
+		for cr in self.candidateresult_set.all():
+			if cr.votes > largest_total:
+				largest_total = cr.votes
+				largest_party = cr.candidate.party.name
+
+		return round((float(largest_total)/float(self.electorate_size))*100,2)
+
+	def abstention_percentage(self):
+		absentions = self.electorate_size
+		for cr in self.candidateresult_set.all():
+			absentions -= cr.votes
+		return round(float(absentions)/float(self.electorate_size)*100)
+
 	def __unicode__(self):
 		return "%s (%s)"%(self.constituency.name,self.election.title)
 
