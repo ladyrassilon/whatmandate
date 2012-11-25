@@ -18,6 +18,13 @@ class Region(models.Model):
 class Constituency(models.Model):
 	name = models.CharField(max_length=100)
 
+class PoliticalParty(models.Model):
+	name = models.CharField(max_length=100)
+
+class Candidate(models.Model):
+	name = models.CharField(max_length=200)
+	party = models.ForeignKey(PoliticalParty)
+
 class ConstituencyElection(models.Model):
 	election = models.ForeignKey(Election)
 	constituency = models.ForeignKey(Constituency)
@@ -25,11 +32,6 @@ class ConstituencyElection(models.Model):
 
 class CandidateResult(models.Model):
 	candidate = models.ForeignKey(Candidate)
+	constituency_election = models.ForeignKey(ConstituencyElection)
 	votes = models.IntegerField()
 
-class Candidate(models.Model):
-	name = models.CharField(max_length=200)
-	party = models.ForeignKey(PoliticalParty)
-
-class PoliticalParty(models.Model):
-	name = models.CharField(max_length=100)
