@@ -81,15 +81,18 @@ class ConstituencyElection(models.Model):
 				largest_party = cr.candidate.party.name
 		return largest_party
 
-	def winner_total_percentage(self):
+	def _calculate_winner_total_percentage(self):
 		largest_party = None
 		largest_total = 0
 		for cr in self.candidateresult_set.all():
 			if cr.votes > largest_total:
 				largest_total = cr.votes
 				largest_party = cr.candidate.party.name
-
-		return round((float(largest_total)/float(self.electorate_size))*100,2)
+		winner_total_percentage = round((float(largest_total)/float(self.electorate_size))*100,2)
+		cache.set("constituency_election.winner_total_percentage.%s,%s"%(self.election_id,self.constituency_id),winner_total_percentage,CACHE_SECONDS)
+		return winner_total_percentage
+	def winner_total_percentage(self):
+		return cache.get("constituency_election.winner_total_percentage.%s,%s"%(self.election_id,self.constituency_id),self._calculate_winner_total_percentage())
 
 	def abstention_percentage(self):
 		absentions = self.electorate_size
