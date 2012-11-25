@@ -8,21 +8,21 @@ ELECTION_TYPES = (
 )
 
 class Election(models.Model):
-	title = models.CharField(max_length=100)
-	date = models.DateField()
-	kind = models.CharField(max_length=1,choices=ELECTION_TYPES)
+	title = models.CharField(max_length=100,unique=True)
+	date = models.DateField(blank=True)
+	kind = models.CharField(max_length=1,choices=ELECTION_TYPES,default="G")
 
 class Region(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100,unique=True)
 
 class Constituency(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100,unique=True)
 
 class PoliticalParty(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100,unique=True)
 
 class Candidate(models.Model):
-	name = models.CharField(max_length=200)
+	name = models.CharField(max_length=200,unique=True)
 	party = models.ForeignKey(PoliticalParty)
 
 class ConstituencyElection(models.Model):
