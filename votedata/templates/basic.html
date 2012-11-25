@@ -9,7 +9,7 @@
         var data = google.visualization.arrayToDataTable([
           ['Constituency', 'Turnout %'],
           {% for conres in election.constituencyelection_set.all%}
-			['{{conres}}',{{conres.turnout_percentage}}],
+			['{{conres.constituency.name}}',{{conres.turnout_percentage}}],
 				
 		{% endfor %}
         ]);
@@ -17,6 +17,7 @@
         var options = {
           title: 'Turnout Percentage',
           hAxis: {maxValue:100,minValue:0},
+          fontSize: 10,
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
