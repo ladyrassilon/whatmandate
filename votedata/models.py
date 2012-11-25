@@ -2,6 +2,8 @@ from django.db import models
 import math
 import json
 from django.core.cache import cache
+from django.core.urlresolvers import reverse
+
 # Create your models here.
 
 CACHE_SECONDS = 60*60*24*7
@@ -18,6 +20,8 @@ class Election(models.Model):
 
 	def __unicode__(self):
 		return self.title
+	def get_absolute_url(self):
+		return reverse("election_detail",kwargs={"election_id":self.id})
 
 class Region(models.Model):
 	name = models.CharField(max_length=100,unique=True)
