@@ -3,7 +3,22 @@
 	<title>Basic view</title>
 </head>
 <body>
-{{election}}
+<h1>{{election}}</h1>
+<table>
+	<thead>
+		<th>Constituency</th>
+		<th>Turnout</th>
+	</thead>
+
+	<tbody>
+		{% for conres in election.constituencyelection_set.all%}
+			<tr>
+				<td>{{conres}}</td>
+				<td>{{conres.turnout_percentage}}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
 </body>
 </html>
 
