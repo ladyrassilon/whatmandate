@@ -6,14 +6,17 @@
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Constituency', 'Turnout %'],
-          {% for conres in election.constituencyelection_set.all%}
-			['{{conres.constituency.name}}',{{conres.turnout_percentage}}],
-				
-		{% endfor %}
-        ]);
-
+	    var data = google.visualization.arrayToDataTable([
+	    	['Constituency','Turnout','First Past Post Share','Abstention Share'],
+	    {% for conres in election.constituencyelection_set.all%}
+	    	[
+	    		'{{conres.constituency.name}}',
+				{{conres.turnout_percentage}},
+				{{conres.winner_total_percentage}},
+				{{conres.abstention_percentage}},
+			],
+	    {% endfor %}
+	    ]);
         var options = {
           title: 'Turnout Percentage',
           hAxis: {maxValue:100,minValue:0},
@@ -39,7 +42,7 @@
 </head>
 <body>
 <h1>{{election}}</h1>
-	<div id="chart_div" style="width: 1600px; height: 10000px;"></div>
+	<div id="chart_div" style="width: 1600px; height: 15000px;"></div>
 </body>
 </html>
 
