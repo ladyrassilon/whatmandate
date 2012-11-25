@@ -4,6 +4,8 @@ import json
 from django.core.cache import cache
 # Create your models here.
 
+CACHE_SECONDS = 60*60*2
+
 ELECTION_TYPES = (
 	('B',"By-Election"),
 	('G',"General Election"),
@@ -45,11 +47,18 @@ class ConstituencyElection(models.Model):
 	election = models.ForeignKey(Election)
 	constituency = models.ForeignKey(Constituency)
 	electorate_size = models.IntegerField()
-	def turnout_percentage(self):
+
+	def _calculate_turnout_percentage(self):
 		total = 0
 		for cr in self.candidateresult_set.all():
 			total += cr.votes
-		return round(float(total)/float(self.electorate_size)*100)
+		turnout_percentage = round(float(total)/float(self.electorate_size)*100)
+		cache.set("constituency_election.turnout_percentage.%s,%s"%(self.election_id,self.constituency_id),turnout_percentage,CACHE_SECONDS)
+		return turnout_percentage
+
+	def turnout_percentage(self):
+		return cache.get("constituency_election.turnout_percentage.%s,%s"%(self.election_id,self.constituency_id),self._calculate_turnout_percentage())
+	
 	def conventional_party_results(self):
 		tally = {}
 		total = 0
