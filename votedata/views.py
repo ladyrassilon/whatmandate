@@ -10,6 +10,6 @@ def different_elections(request):
 	return render_to_response("elections.html",{"elections",elections},RequestContext(request))
 
 @cache_page(60 * 15)
-def basic_view(request):
-	election = Election.objects.get(title="General Election 2010")
+def election_detail(request,election_id):
+	election = Election.objects.get(id=election_id)
 	return render_to_response("basic.html",{"election":election},RequestContext(request))
