@@ -18,6 +18,7 @@
           title: 'Turnout Percentage',
           hAxis: {maxValue:100,minValue:0},
           fontSize: 10,
+          chartArea: {top:10},
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
@@ -38,7 +39,7 @@
 </head>
 <body>
 <h1>{{election}}</h1>
-	<div id="chart_div" style="width: 1600px; height: 18000px;"></div>
+	<div id="chart_div" style="width: 1600px; height: 10000px;"></div>
 </body>
 </html>
 
