@@ -9,7 +9,7 @@ ELECTION_TYPES = (
 
 class Election(models.Model):
 	title = models.CharField(max_length=100,unique=True)
-	date = models.DateField(blank=True)
+	date = models.DateField(blank=True,null=True)
 	kind = models.CharField(max_length=1,choices=ELECTION_TYPES,default="G")
 
 class Region(models.Model):
@@ -17,13 +17,16 @@ class Region(models.Model):
 
 class Constituency(models.Model):
 	name = models.CharField(max_length=100,unique=True)
+	region = models.ForeignKey(Region)
 
 class PoliticalParty(models.Model):
 	name = models.CharField(max_length=100,unique=True)
 
 class Candidate(models.Model):
-	name = models.CharField(max_length=200,unique=True)
+	name = models.CharField(max_length=200)
 	party = models.ForeignKey(PoliticalParty)
+	#slight hack as far as uniqueness for data over time/space is concerned
+	constituency_id = models.CharField(max_length=100)
 
 class ConstituencyElection(models.Model):
 	election = models.ForeignKey(Election)
