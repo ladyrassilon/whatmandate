@@ -7,3 +7,5 @@ openpyxl==1.6.1
 psycopg2==2.4.5
 readline==6.2.2
 wsgiref==0.1.2
+pylibmc==1.2.2
+django-pylibmc-sasl==0.2.4
