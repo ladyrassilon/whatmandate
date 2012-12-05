@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 # Create your models here.
 
-CACHE_SECONDS = 60*60*24*7
+CACHE_SECONDS = 60*60*24*365
 
 ELECTION_TYPES = (
 	('B',"By-Election"),
