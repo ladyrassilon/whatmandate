@@ -8,9 +8,9 @@
       function drawChart() {
 	    var data = google.visualization.arrayToDataTable([
 	    	['Constituency','Turnout','First Past Post Share','Abstention Share'],
-	    {% for conres in election.constituencyelection_set.all%}
+	    {% for conres in election.get_constituency_results%}
 	    	[
-	    		'{{conres.constituency.name}}',
+	    		'{{conres.name}}',
 				{{conres.turnout_percentage}},
 				{{conres.winner_total_percentage}},
 				{{conres.abstention_percentage}},
