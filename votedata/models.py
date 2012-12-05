@@ -18,6 +18,22 @@ class Election(models.Model):
 	date = models.DateField(blank=True,null=True)
 	kind = models.CharField(max_length=1,choices=ELECTION_TYPES,default="G")
 
+	def _get_constituency_results(self):
+		print "cache fail"
+		constituency_results = [{
+			"name":result.constituency.name,
+			"turnout_percentage":result.turnout_percentage(),
+			"winner_total_percentage":result.winner_total_percentage(),
+			"abstention_percentage":result.abstention_percentage()} for result in self.constituencyelection_set.all()]
+		cache.set("ecr%s"%(self.id),constituency_results,CACHE_SECONDS)
+		return constituency_results
+	def get_constituency_results(self):
+		results = cache.get("ecr%s"%(self.id),False)
+		if not results:
+			results = self._get_constituency_results()
+		return results
+
+
 	def __unicode__(self):
 		return self.title
 	def get_absolute_url(self):
