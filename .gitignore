@@ -47,3 +47,4 @@ nosetests.xml
 .pydevproject
 
 whatmandate/local_settings.py
+whatmandate/local_database.py
