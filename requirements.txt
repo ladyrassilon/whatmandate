@@ -5,7 +5,6 @@ gunicorn==0.16.1
 ipython==0.13.1
 openpyxl==1.6.1
 psycopg2==2.4.5
+python-memcached==1.48
 readline==6.2.2
 wsgiref==0.1.2
-pylibmc==1.2.2
-django-pylibmc-sasl==0.2.4
